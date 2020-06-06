@@ -16,8 +16,6 @@ The reuslts (entity-level micro F1 score) are summerized as follows:
 
 - *Full Supervision*: Roberta Finetuning/BiLSTM CRF
 - *Previous SOTA*: BiLSTM-CRF/AutoNER/LR-CRF/KALM/CONNET
-- *OpenNER*: Zhu, Mengdi, et al. 
-
 
 ## Data
 
