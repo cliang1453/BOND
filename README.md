@@ -25,10 +25,12 @@ The reuslts (F1 score) are summerized as follows:
 
 Please cite the following paper if you are using our datasets/tool. Thanks!
 
+- Chen Liang*, Yue Yu*, Haoming Jiang*, Siawpeng Er, Ruijia Wang, Tuo Zhao and Chao Zhang, "**[BOND: Bert-Assisted Open-Domain Named Entity Recognition with Distant Supervision]()**", in Proc. of the 26th ACM SIGKDD International Conference on Knowledge Discovery and Data Mining (KDD'20)
+
 ```
 @inproceedings{chen2020bond,
   title = {BOND: Bert-Assisted Open-Domain Named Entity Recognition with Distant Supervision}, 
-  author = {Chen, Liang and Yu, Yue and Jiang, Haoming and Er, Siawpeng and Wang, Ruijia and Zhao, Tuo and Zhang, Chao}, 
+  author = {Liang, Chen and Yu, Yue and Jiang, Haoming and Er, Siawpeng and Wang, Ruijia and Zhao, Tuo and Zhang, Chao}, 
   booktitle = {Proceedings of the 26th ACM SIGKDD International Conference on Knowledge Discovery and Data Mining}, 
   year = 2020, 
 }
