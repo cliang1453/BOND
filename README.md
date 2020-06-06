@@ -5,6 +5,8 @@ This repo contains our code and pre-processed distantly/weakly labeled data for 
 
 ## BOND
 
+![BOND-Framework](docs/bond.png)
+
 ## Benchmark
 The reuslts (F1 score) are summerized as follows:
 
@@ -19,6 +21,8 @@ The reuslts (F1 score) are summerized as follows:
 
 
 ## Data
+
+We release five open-domain distantly/weakly labeled NER datasets here: [DataSet](datset)
 
 
 ## Citation
