@@ -1,8 +1,6 @@
 # BOND
 This repo contains our code and pre-processed distantly/weakly labeled data for paper [BOND: BERT-Assisted Open-Domain Name Entity Recognition with Distant Supervision (KDD2020)]()
 
-## Summary
-
 ## BOND
 
 ![BOND-Framework](docs/bond.png)
@@ -22,7 +20,7 @@ The reuslts (F1 score) are summerized as follows:
 
 ## Data
 
-We release five open-domain distantly/weakly labeled NER datasets here: [DataSet](datset)
+We release five open-domain distantly/weakly labeled NER datasets here: [Dataset](dataset)
 
 
 ## Citation
@@ -32,7 +30,7 @@ Please cite the following paper if you are using our datasets/tool. Thanks!
 - Chen Liang*, Yue Yu*, Haoming Jiang*, Siawpeng Er, Ruijia Wang, Tuo Zhao and Chao Zhang, "**[BOND: Bert-Assisted Open-Domain Named Entity Recognition with Distant Supervision]()**", in Proc. of the 26th ACM SIGKDD International Conference on Knowledge Discovery and Data Mining (KDD'20)
 
 ```
-@inproceedings{chen2020bond,
+@inproceedings{liang2020bond,
   title = {BOND: Bert-Assisted Open-Domain Named Entity Recognition with Distant Supervision}, 
   author = {Liang, Chen and Yu, Yue and Jiang, Haoming and Er, Siawpeng and Wang, Ruijia and Zhao, Tuo and Zhang, Chao}, 
   booktitle = {Proceedings of the 26th ACM SIGKDD International Conference on Knowledge Discovery and Data Mining}, 
