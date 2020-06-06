@@ -5,7 +5,7 @@ We release five distantly/weakly labeled NER datasets:
 |        | CoNLL03 | Tweet | OntoNote5.0 | Webpage | Wikigold |
 | ------ | ------- | ----- | ----------- | ------- | -------- |
 | Entity Types | 4 | 10 | 18 | 4 | 4 |
-| Origin | [Easy](https://github.com/patverga/torch-ner-nlp-from-scratch/tree/master/data/conll2003/) [to](https://github.com/synalp/NER/tree/master/corpus/CoNLL-2003) [find](https://github.com/glample/tagger/tree/master/dataset) | [WNUT-16](https://github.com/aritter/twitter_nlp/tree/master/data/annotated/wnut16) | [LDC2013T19](https://catalog.ldc.upenn.edu/LDC2013T19) | | [Github](https://github.com/juand-r/entity-recognition-datasets/tree/master/data/wikigold) |
+| Origin | [Easy](https://github.com/patverga/torch-ner-nlp-from-scratch/tree/master/data/conll2003/) [to](https://github.com/synalp/NER/tree/master/corpus/CoNLL-2003) [find](https://github.com/glample/tagger/tree/master/dataset) | [WNUT-16](https://github.com/aritter/twitter_nlp/tree/master/data/annotated/wnut16) | [LDC2013T19](https://catalog.ldc.upenn.edu/LDC2013T19) | [CogComp](http://cogcomp.seas.upenn.edu/Data/NERWebpagesColumns.tgz) | [Github](https://github.com/juand-r/entity-recognition-datasets/tree/master/data/wikigold) |
 
 ## References
 - [CoNLL03] Erik F. Tjong Kim Sang and Fien De Meulder. "Introduction to the CoNLL-2003 shared task: Languageindependent named entity recognition." In Proceedings of the Seventh Conference on Natural Language Learning at HLT-NAACL 2003.
