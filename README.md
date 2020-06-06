@@ -6,7 +6,7 @@ This repo contains our code and pre-processed distantly/weakly labeled data for 
 ![BOND-Framework](docs/bond.png)
 
 ## Benchmark
-The reuslts (F1 score) are summerized as follows:
+The reuslts (entity-level micro F1 score) are summerized as follows:
 
 | Method | CoNLL03 | Tweet | OntoNote5.0 | Webpage | Wikigold |
 | ------ | ------- | ----- | ----------- | ------- | -------- |
