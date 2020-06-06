@@ -10,12 +10,22 @@ The reuslts (entity-level micro F1 score) are summerized as follows:
 
 | Method | CoNLL03 | Tweet | OntoNote5.0 | Webpage | Wikigold |
 | ------ | ------- | ----- | ----------- | ------- | -------- |
-| Full Supervision  | 91.21 | 52.19 | 86.20 | 72.39 | 86.43 |
+| Full Supervision (our imp. RoBERTa fine-tuning)  | 91.21 | 52.19 | 86.20 | 72.39 | 86.43 |
 | Previous SOTA | 76.00 | 26.10 | 67.69 | 51.39 | 47.54 |
 | BOND | 81.48 | 48.01 | 68.35 | 65.74 | 60.07 |
 
 - *Full Supervision*: Roberta Finetuning/BiLSTM CRF
 - *Previous SOTA*: BiLSTM-CRF/AutoNER/LR-CRF/KALM/CONNET
+
+**vs. OpenNER a fully supervisied baseline under a simplified setting**
+
+| Method | CoNLL03 | Tweet | OntoNote5.0 | Webpage | Wikigold |
+| ------ | ------- | ----- | ----------- | ------- | -------- |
+| [OpenNER](https://github.com/zmd971202/OpenNER) | 92.02 | 51.45 | 66.71 | 48.75 | 82.37 | 
+
+*OpenNER* is a fully supervised baseline using BERT base fine-tuning  with simplified entity-types, which makes open domain NER much simplier. 
+Our implementation of baseline (direct RoBERTa fine-tuning) is rather strong and is better on 4 out of 5 datasets.
+Our weakly-supervised approach is better on 2 out of 5 datasets and comparable on Tweet, where we consider 10 types and OpenNER reduces them to 4 types. 
 
 ## Data
 
