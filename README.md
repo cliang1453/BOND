@@ -6,7 +6,7 @@ This repo contains our code and pre-processed distantly/weakly labeled data for 
 ![BOND-Framework](docs/bond.png)
 
 ## Benchmark
-The reuslts (entity-level micro F1 score) are summerized as follows:
+The reuslts (entity-level F1 score) are summarized as follows:
 
 | Method | CoNLL03 | Tweet | OntoNote5.0 | Webpage | Wikigold |
 | ------ | ------- | ----- | ----------- | ------- | -------- |
@@ -20,7 +20,26 @@ The reuslts (entity-level micro F1 score) are summerized as follows:
 
 ## Data
 
-We release five open-domain distantly/weakly labeled NER datasets here: [Dataset](dataset)
+We release five open-domain distantly/weakly labeled NER datasets here: [dataset](dataset)
+
+## Training & Evaluation
+
+We provides the training scripts for all five open-domain distantly/weakly labeled NER datasets in [scripts](scripts). E.g., for BOND training and evaluation on CoNLL03
+```
+cd BOND
+./scripts/conll_self_training.sh
+```
+For Stage I training and evaluation on CoNLL03
+```
+cd BOND
+./scripts/conll_baseline.sh
+```
+The test reuslts (entity-level F1 score) are summarized as follows:
+
+| Method | CoNLL03 | Tweet | OntoNote5.0 | Webpage | Wikigold |
+| ------ | ------- | ----- | ----------- | ------- | -------- |
+| Stage I| 75.61   | 46.61 | 68.11       | 59.11   | 52.15    |
+| BOND   | 81.48   | 48.01 | 68.35       | 65.74   | 60.07    |
 
 
 ## Citation
