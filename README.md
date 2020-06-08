@@ -19,8 +19,25 @@ The reuslts (entity-level micro F1 score) are summerized as follows:
 
 
 ## Data
+We release five open-domain distantly/weakly labeled NER datasets here: [dataset](dataset)
 
-We release five open-domain distantly/weakly labeled NER datasets here: [Dataset](dataset)
+## Training & Evaluation
+We provides the training scripts for all five open-domain distantly/weakly labeled NER datasets in [scripts](scripts). E.g., for BOND training and evaluation on CoNLL03
+```
+cd BOND
+./scripts/conll_self_training.sh
+```
+For Stage I training and evaluation on CoNLL03
+```
+cd BOND
+./scripts/conll_baseline.sh
+```
+The test reuslts (entity-level micro F1 score) are summerized as follows:
+
+| Method | CoNLL03 | Tweet | OntoNote5.0 | Webpage | Wikigold |
+| ------ | ------- | ----- | ----------- | ------- | -------- |
+| Stage I|  ||||52.15|
+| BOND   | 81.48   | 48.01 | 68.35       | 65.74   | 60.07 |
 
 
 ## Citation
