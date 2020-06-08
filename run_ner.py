@@ -495,23 +495,23 @@ def main():
     parser.add_argument("--server_port", type=str, default="", help="For distant debugging.")
 
     # mean teacher
-    parser.add_argument('--mt', type = int, default = 0, help = 'whether to use mean teacher')
+    parser.add_argument('--mt', type = int, default = 0, help = 'mean teacher.')
     parser.add_argument('--mt_updatefreq', type=int, default=1, help = 'mean teacher update frequency')
-    parser.add_argument('--mt_class', type=str, default="kl", help = 'mean teacher class, choices = [smart (default), prob, logit, kl, distill]')
-    parser.add_argument('--mt_lambda', type=float, default=1, help="trade off parameter from the consistent loss using mean teacher.")
-    parser.add_argument('--mt_rampup', type=int, default=300, help="4000 (default), rampup iteration.")
-    parser.add_argument('--mt_alpha1', default=0.99, type=float, help="False (default), moving average parameter of mean teacher  (for the exponential moving average).")
-    parser.add_argument('--mt_alpha2', default=0.995, type=float, help="False (default), moving average parameter of mean teacher  (for the exponential moving average).")
+    parser.add_argument('--mt_class', type=str, default="kl", help = 'mean teacher class, choices:[smart, prob, logit, kl(default), distill].')
+    parser.add_argument('--mt_lambda', type=float, default=1, help= "trade off parameter of the consistent loss.")
+    parser.add_argument('--mt_rampup', type=int, default=300, help="rampup iteration.")
+    parser.add_argument('--mt_alpha1', default=0.99, type=float, help="moving average parameter of mean teacher (for the exponential moving average).")
+    parser.add_argument('--mt_alpha2', default=0.995, type=float, help="moving average parameter of mean teacher (for the exponential moving average).")
     parser.add_argument('--mt_beta', default=10, type=float, help="coefficient of mt_loss term.")
-    parser.add_argument('--mt_avg', default="exponential", type=str, help="exponentail (default), choices = [exponentail, simple, double_ema], moving average method")
-    parser.add_argument('--mt_loss_type', default="logits", type=str, help="logits (default), choices = [embeds, logits], subject to measure model difference")
+    parser.add_argument('--mt_avg', default="exponential", type=str, help="moving average method, choices:[exponentail(default), simple, double_ema].")
+    parser.add_argument('--mt_loss_type', default="logits", type=str, help="subject to measure model difference, choices:[embeds, logits(default)].")
 
     # virtual adversarial training
-    parser.add_argument('--vat', type = int, default = 0, help = 'whether to use virtual adversarial training')
-    parser.add_argument('--vat_eps', type = float, default = 1e-3, help = 'perturbation size for virtual adversarial training')
-    parser.add_argument('--vat_lambda', type = float, default = 1, help = 'trade off parameter for virtual adversarial training')
-    parser.add_argument('--vat_beta', type = float, default = 1, help = 'coefficient of the virtual adversarial training loss term')
-    parser.add_argument('--vat_loss_type', default="logits", type=str, help="logits (default), choices = [embeds, logits], subject to measure model difference")
+    parser.add_argument('--vat', type = int, default = 0, help = 'virtual adversarial training.')
+    parser.add_argument('--vat_eps', type = float, default = 1e-3, help = 'perturbation size for virtual adversarial training.')
+    parser.add_argument('--vat_lambda', type = float, default = 1, help = 'trade off parameter for virtual adversarial training.')
+    parser.add_argument('--vat_beta', type = float, default = 1, help = 'coefficient of the virtual adversarial training loss term'.)
+    parser.add_argument('--vat_loss_type', default="logits", type=str, help="subject to measure model difference, choices = [embeds, logits(default)].")
 
 
     args = parser.parse_args()

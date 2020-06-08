@@ -544,32 +544,31 @@ def main():
     parser.add_argument("--server_port", type=str, default="", help="For distant debugging.")
 
     # mean teacher
-    parser.add_argument('--mt', type = int, default = 0, help = 'whether to use mean teacher')
+    parser.add_argument('--mt', type = int, default = 0, help = 'mean teacher.')
     parser.add_argument('--mt_updatefreq', type=int, default=1, help = 'mean teacher update frequency')
-    parser.add_argument('--mt_class', type=str, default="kl", help = 'mean teacher class, choices = [smart (default), prob, logit, kl, distill]')
-    parser.add_argument('--mt_lambda', type=float, default=1, help="trade off parameter from the consistent loss using mean teacher.")
-    parser.add_argument('--mt_rampup', type=int, default=300, help="4000 (default), rampup iteration.")
-    parser.add_argument('--mt_alpha1', default=0.99, type=float, help="False (default), moving average parameter of mean teacher  (for the exponential moving average).")
-    parser.add_argument('--mt_alpha2', default=0.995, type=float, help="False (default), moving average parameter of mean teacher  (for the exponential moving average).")
+    parser.add_argument('--mt_class', type=str, default="kl", help = 'mean teacher class, choices:[smart, prob, logit, kl(default), distill].')
+    parser.add_argument('--mt_lambda', type=float, default=1, help= "trade off parameter of the consistent loss.")
+    parser.add_argument('--mt_rampup', type=int, default=300, help="rampup iteration.")
+    parser.add_argument('--mt_alpha1', default=0.99, type=float, help="moving average parameter of mean teacher (for the exponential moving average).")
+    parser.add_argument('--mt_alpha2', default=0.995, type=float, help="moving average parameter of mean teacher (for the exponential moving average).")
     parser.add_argument('--mt_beta', default=10, type=float, help="coefficient of mt_loss term.")
-    parser.add_argument('--mt_avg', default="exponential", type=str, help="exponentail (default), choices = [exponentail, simple, double_ema], moving average method")
-    parser.add_argument('--mt_loss_type', default="logits", type=str, help="logits (default), choices = [embeds, logits], subject to measure model difference")
+    parser.add_argument('--mt_avg', default="exponential", type=str, help="moving average method, choices:[exponentail(default), simple, double_ema].")
+    parser.add_argument('--mt_loss_type', default="logits", type=str, help="subject to measure model difference, choices:[embeds, logits(default)].")
 
     # virtual adversarial training
-    parser.add_argument('--vat', type = int, default = 0, help = 'whether to use virtual adversarial training')
-    parser.add_argument('--vat_eps', type = float, default = 1e-3, help = 'perturbation size for virtual adversarial training')
-    parser.add_argument('--vat_lambda', type = float, default = 1, help = 'trade off parameter for virtual adversarial training')
-    parser.add_argument('--vat_beta', type = float, default = 1, help = 'coefficient of the virtual adversarial training loss term')
-    parser.add_argument('--vat_loss_type', default="logits", type=str, help="logits (default), choices = [embeds, logits], subject to measure model difference")
+    parser.add_argument('--vat', type = int, default = 0, help = 'virtual adversarial training.')
+    parser.add_argument('--vat_eps', type = float, default = 1e-3, help = 'perturbation size for virtual adversarial training.')
+    parser.add_argument('--vat_lambda', type = float, default = 1, help = 'trade off parameter for virtual adversarial training.')
+    parser.add_argument('--vat_beta', type = float, default = 1, help = 'coefficient of the virtual adversarial training loss term'.)
+    parser.add_argument('--vat_loss_type', default="logits", type=str, help="subject to measure model difference, choices = [embeds, logits(default)].")
 
     # self-training
-    parser.add_argument('--self_training_reinit', type = int, default = 0, help = 'whether to re-initialize the student model if a new teacher model is learned during previous epoch')
-    parser.add_argument('--self_training_begin_step', type = int, default = 900, help = 'the begin step (usually after the first epoch) to start teaching with teacher model. \
-        We set this param to ensure that the teacher model can out-perform the labeling function.')
-    parser.add_argument('--self_training_label_mode', type = str, default = "hard", help = 'pseudo label type. Choices = [hard, soft]')
-    parser.add_argument('--self_training_period', type = int, default = 878, help = 'pseudo label type. Choices = [hard, soft]')
-    parser.add_argument('--self_training_hp_label', type = float, default = 0, help = 'use high precision label to filter')
-    parser.add_argument('--self_training_ensemble_label', type = int, default = 0, help = 'use high precision label to filter')
+    parser.add_argument('--self_training_reinit', type = int, default = 0, help = 're-initialize the student model if the teacher model is updated.')
+    parser.add_argument('--self_training_begin_step', type = int, default = 900, help = 'the begin step (usually after the first epoch) to start self-training.')
+    parser.add_argument('--self_training_label_mode', type = str, default = "hard", help = 'pseudo label type. choices:[hard(default), soft].')
+    parser.add_argument('--self_training_period', type = int, default = 878, help = 'the self-training period.')
+    parser.add_argument('--self_training_hp_label', type = float, default = 0, help = 'use high precision label.')
+    parser.add_argument('--self_training_ensemble_label', type = int, default = 0, help = 'use ensemble label.')
 
     args = parser.parse_args()
 
