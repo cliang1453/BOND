@@ -48,9 +48,9 @@ Please cite the following paper if you are using our datasets/tool. Thanks!
 
 ```
 @inproceedings{liang2020bond,
-  title = {BOND: BERT-Assisted Open-Domain Named Entity Recognition with Distant Supervision}, 
-  author = {Liang, Chen and Yu, Yue and Jiang, Haoming and Er, Siawpeng and Wang, Ruijia and Zhao, Tuo and Zhang, Chao}, 
-  booktitle = {Proceedings of the 26th ACM SIGKDD International Conference on Knowledge Discovery and Data Mining}, 
-  year = 2020, 
+  title={BOND: Bert-Assisted Open-Domain Named Entity Recognition with Distant Supervision},
+  author={Liang, Chen and Yu, Yue and Jiang, Haoming and Er, Siawpeng and Wang, Ruijia and Zhao, Tuo and Zhang, Chao},
+  booktitle={ACM SIGKDD International Conference on Knowledge Discovery and Data Mining},
+  year={2020}
 }
 ```
