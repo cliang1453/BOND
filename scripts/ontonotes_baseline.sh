@@ -10,28 +10,28 @@ echo "Run on GPU $GPUID"
 
 # data
 PROJECT_ROOT=$(dirname "$(readlink -f "$0")")/..
-DATA_ROOT=$PROJECT_ROOT/dataset/wikigold_distant/
+DATA_ROOT=$PROJECT_ROOT/dataset/ontonotes5_distant/
 
 # model
 MODEL_TYPE=roberta
 MODEL_NAME=roberta-base
 
 # params
-LR=1e-5
+LR=2e-5
 WEIGHT_DECAY=1e-4
-EPOCH=50
+EPOCH=20
 SEED=0
 
 ADAM_EPS=1e-8
 ADAM_BETA1=0.9
 ADAM_BETA2=0.98
-WARMUP=20
+WARMUP=500
 
-TRAIN_BATCH=16
+TRAIN_BATCH=32
 EVAL_BATCH=32
 
 # output
-OUTPUT=$PROJECT_ROOT/outputs/wikigold/baseline/${MODEL_TYPE}_${EPOCH}_${LR}/
+OUTPUT=$PROJECT_ROOT/outputs/ontonotes5/baseline/${MODEL_TYPE}_${EPOCH}_${LR}/
 
 [ -e $OUTPUT/script  ] || mkdir -p $OUTPUT/script
 cp -f $(readlink -f "$0") $OUTPUT/script
@@ -48,7 +48,7 @@ CUDA_DEVICE_ORDER=PCI_BUS_ID CUDA_VISIBLE_DEVICES=$GPUID python3 run_ner.py --da
   --warmup_steps $WARMUP \
   --per_gpu_train_batch_size $TRAIN_BATCH \
   --per_gpu_eval_batch_size $EVAL_BATCH \
-  --logging_steps 100 \
+  --logging_steps 500 \
   --save_steps 100000 \
   --do_train \
   --do_eval \
