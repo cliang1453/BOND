@@ -24,7 +24,7 @@ We release five open-domain distantly/weakly labeled NER datasets here: [dataset
 
 ## Environment
 
-Python 3.7.5, Pytorch 1.3.1, Hugging Face Transformers v2.3.0.
+Python 3.7, Pytorch 1.3, Hugging Face Transformers v2.3.0.
 
 ## Training & Evaluation
 
