@@ -7,6 +7,15 @@ We release five distantly/weakly labeled NER datasets:
 | Entity Types | 4 | 10 | 18 | 4 | 4 |
 | Origin | [Easy](https://github.com/patverga/torch-ner-nlp-from-scratch/tree/master/data/conll2003/) [to](https://github.com/synalp/NER/tree/master/corpus/CoNLL-2003) [find](https://github.com/glample/tagger/tree/master/dataset) | [WNUT-16](https://github.com/aritter/twitter_nlp/tree/master/data/annotated/wnut16) | [LDC2013T19](https://catalog.ldc.upenn.edu/LDC2013T19) | [CogComp](http://cogcomp.seas.upenn.edu/Data/NERWebpagesColumns.tgz) | [Github](https://github.com/juand-r/entity-recognition-datasets/tree/master/data/wikigold) |
 
+## Format
+
+It is basically the CoNLL format https://simpletransformers.ai/docs/ner-data-formats/#text-file-in-conll-format
+
+Only the fields “str_words” and “tag” are used. Other fields are used in other projects and are not used in this repo.
+The “tag” is the index of the label, where the mapping is defined in “tag_to_id.json”
+
+You can see how we use these files in [data_utils.py](https://github.com/cliang1453/BOND/blob/60d4938f3a0b24d52aa36e6d95416cf676ef11c2/data_utils.py#L55-L74).
+
 ## References
 - [CoNLL03] Erik F. Tjong Kim Sang and Fien De Meulder. "Introduction to the CoNLL-2003 shared task: Languageindependent named entity recognition." In Proceedings of the Seventh Conference on Natural Language Learning at HLT-NAACL 2003.
 - [Tweet] Ritter, Alan, Sam Clark, and Oren Etzioni. "Named entity recognition in tweets: an experimental study." Proceedings of the conference on empirical methods in natural language processing. Association for Computational Linguistics, 2011.
