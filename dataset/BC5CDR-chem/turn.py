@@ -23,10 +23,17 @@ for filename in ['dev.txt', 'test.txt', 'train.txt', 'weak.txt']:
         for l in tqdm.tqdm(f):
             l = l.strip()
             if len(words)>0 and l == '':
-                data.append({
-                    "str_words": words,
-                    "tags": tags,
-                })
+                if filename == "train.txt":
+                    data.append({
+                        "str_words": words,
+                        "tags": tags,
+                        "tags_hp": tags,
+                    })
+                else:
+                    data.append({
+                        "str_words": words,
+                        "tags": tags,
+                    })
                 words = []
                 tags = []
                 continue

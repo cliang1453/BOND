@@ -88,7 +88,7 @@ def multi_source_label_refine(args, hp_labels, combined_labels, pred_labels, pad
             label_mask = (pred_labels.max(dim=-1)[0]>_threshold)
             if args.self_training_hp_label < 5:
                 label_mask = label_mask & (combined_labels!=pad_token_label_id)
-        elif 6 <= args.self_training_hp_label <= 7:
+        elif 6 <= args.self_training_hp_label < 7:
             _threshold = args.self_training_hp_label%1
             _confidence = pred_labels.max(dim=-1)[0]
             for i in range(1,pred_labels.shape[0]):
@@ -97,6 +97,17 @@ def multi_source_label_refine(args, hp_labels, combined_labels, pred_labels, pad
                         _distantlabel = combined_labels[i,j]
                         pred_labels[i,j] *= 0
                         pred_labels[i,j,_distantlabel] = 1
+        elif 7 <= args.self_training_hp_label < 9:
+            _threshold = args.self_training_hp_label%1
+            label_mask = (pred_labels.max(dim=-1)[0]>_threshold)
+            if args.self_training_hp_label < 8:
+                label_mask = label_mask & (combined_labels!=pad_token_label_id)
+            # overwrite by hp_labels
+            for i in range(0,pred_labels.shape[2]):
+                _labeli = [0]*pred_labels.shape[2]
+                _labeli[i] = 1
+                _labeli = torch.tensor(_labeli).to(pred_labels)
+                pred_labels[hp_labels==i] = _labeli
         else:
             raise NotImplementedError('error')
 
