@@ -110,6 +110,8 @@ def convert_examples_to_features(
         hp_label_ids = []
         for word, label, hp_label in zip(example.words, example.labels, example.hp_labels):
             word_tokens = tokenizer.tokenize(word)
+            if(len(word_tokens) == 0):
+                continue
             tokens.extend(word_tokens)
             # Use the real label id for the first token of the word, and padding ids for the remaining tokens
             label_ids.extend([label] + [pad_token_label_id] * (len(word_tokens) - 1))
