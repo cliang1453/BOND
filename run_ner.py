@@ -52,6 +52,7 @@ from transformers import (
 )
 
 from modeling_roberta import RobertaForTokenClassification_v2
+from modeling_bert import BERTForTokenClassification_v2
 from data_utils import load_and_cache_examples, get_labels
 from model_utils import mt_update, get_mt_loss, opt_grad
 from eval import evaluate
@@ -73,7 +74,8 @@ ALL_MODELS = sum(
 )
 
 MODEL_CLASSES = {
-    "bert": (BertConfig, BertForTokenClassification, BertTokenizer),
+    "bert": (BertConfig, BERTForTokenClassification_v2, BertTokenizer),
+    "biobert": (BertConfig, BERTForTokenClassification_v2, BertTokenizer),
     "roberta": (RobertaConfig, RobertaForTokenClassification_v2, RobertaTokenizer),
     "distilbert": (DistilBertConfig, DistilBertForTokenClassification, DistilBertTokenizer),
     "camembert": (CamembertConfig, CamembertForTokenClassification, CamembertTokenizer),
@@ -162,15 +164,18 @@ def train(args, train_dataset, model, tokenizer, labels, pad_token_label_id):
     steps_trained_in_current_epoch = 0
     # Check if continuing training from a checkpoint
     if os.path.exists(args.model_name_or_path):
-        # set global_step to gobal_step of last saved checkpoint from model path
-        global_step = int(args.model_name_or_path.split("-")[-1].split("/")[0])
-        epochs_trained = global_step // (len(train_dataloader) // args.gradient_accumulation_steps)
-        steps_trained_in_current_epoch = global_step % (len(train_dataloader) // args.gradient_accumulation_steps)
+        try:
+            # set global_step to gobal_step of last saved checkpoint from model path
+            global_step = int(args.model_name_or_path.split("-")[-1].split("/")[0])
+            epochs_trained = global_step // (len(train_dataloader) // args.gradient_accumulation_steps)
+            steps_trained_in_current_epoch = global_step % (len(train_dataloader) // args.gradient_accumulation_steps)
 
-        logger.info("  Continuing training from checkpoint, will skip to saved global_step")
-        logger.info("  Continuing training from epoch %d", epochs_trained)
-        logger.info("  Continuing training from global step %d", global_step)
-        logger.info("  Will skip the first %d steps in the first epoch", steps_trained_in_current_epoch)
+            logger.info("  Continuing training from checkpoint, will skip to saved global_step")
+            logger.info("  Continuing training from epoch %d", epochs_trained)
+            logger.info("  Continuing training from global step %d", global_step)
+            logger.info("  Will skip the first %d steps in the first epoch", steps_trained_in_current_epoch)
+        except:
+            logger.warning(f"Unable to recover training step from {args.model_name_or_path}")
 
     tr_loss, logging_loss = 0.0, 0.0
     model.zero_grad()
@@ -198,9 +203,10 @@ def train(args, train_dataset, model, tokenizer, labels, pad_token_label_id):
             #inputs = {"input_ids": batch[0], "attention_mask": batch[1], "labels": batch[4]}
             if args.model_type != "distilbert":
                 inputs["token_type_ids"] = (
-                    batch[2] if args.model_type in ["bert", "xlnet"] else None
+                    batch[2] if args.model_type in ["bert", "biobert", "xlnet"] else None
                 )  # XLM and RoBERTa don"t use segment_ids
 
+            # import ipdb; ipdb.set_trace()
             outputs = model(**inputs)
             loss, logits, final_embeds = outputs[0], outputs[1], outputs[2] # model outputs are always tuple in pytorch-transformers (see doc)
             mt_loss, vat_loss = 0, 0
@@ -236,7 +242,7 @@ def train(args, train_dataset, model, tokenizer, labels, pad_token_label_id):
                 
                 if args.model_type in ["roberta", "camembert", "xlmroberta"]:
                     word_embed = model.roberta.get_input_embeddings()
-                elif args.model_type == "bert":
+                elif args.model_type in ["bert", "biobert"]:
                     word_embed = model.bert.get_input_embeddings()
                 elif args.model_type == "distilbert":
                     word_embed = model.distilbert.get_input_embeddings()
@@ -251,7 +257,7 @@ def train(args, train_dataset, model, tokenizer, labels, pad_token_label_id):
                     vat_inputs = {"inputs_embeds": vat_embeds, "attention_mask": batch[1], "labels": batch[3]}
                     if args.model_type != "distilbert":
                         inputs["token_type_ids"] = (
-                            batch[2] if args.model_type in ["bert", "xlnet"] else None
+                            batch[2] if args.model_type in ["bert", "biobert", "xlnet"] else None
                         )  # XLM and RoBERTa don"t use segment_ids
                     
                     vat_outputs = model(**vat_inputs)
@@ -275,7 +281,7 @@ def train(args, train_dataset, model, tokenizer, labels, pad_token_label_id):
                         vat_inputs = {"inputs_embeds": vat_embeds, "attention_mask": batch[1], "labels": batch[3]}
                         if args.model_type != "distilbert":
                             inputs["token_type_ids"] = (
-                                batch[2] if args.model_type in ["bert", "xlnet"] else None
+                                batch[2] if args.model_type in ["bert", "biobert", "xlnet"] else None
                             )  # XLM and RoBERTa don"t use segment_ids
                         
                         vat_outputs = model(**vat_inputs)
@@ -514,6 +520,12 @@ def main():
     parser.add_argument('--vat_loss_type', default="logits", type=str, help="subject to measure model difference, choices = [embeds, logits(default)].")
 
 
+    # Use data from weak.json
+    parser.add_argument('--load_weak', action="store_true", help = 'Load data from weak.json.')
+    parser.add_argument('--remove_labels_from_weak', action="store_true", help = 'Use data from weak.json, and remove their labels for semi-supervised learning')
+    parser.add_argument('--rep_train_against_weak', type = int, default = 1, help = 'Upsampling training data again weak data. Default: 1')
+
+
     args = parser.parse_args()
 
     if (
@@ -609,6 +621,11 @@ def main():
     # Training
     if args.do_train:
         train_dataset = load_and_cache_examples(args, tokenizer, labels, pad_token_label_id, mode="train")
+        # import ipdb; ipdb.set_trace()
+        if args.load_weak:
+            weak_dataset = load_and_cache_examples(args, tokenizer, labels, pad_token_label_id, mode="weak", remove_labels=args.remove_labels_from_weak)
+            train_dataset = torch.utils.data.ConcatDataset([train_dataset]*args.rep_train_against_weak + [weak_dataset,])
+            
         global_step, tr_loss, best_dev, best_test = train(args, train_dataset, model, tokenizer, labels, pad_token_label_id)
         logger.info(" global_step = %s, average loss = %s", global_step, tr_loss)
 

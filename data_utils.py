@@ -110,6 +110,8 @@ def convert_examples_to_features(
         hp_label_ids = []
         for word, label, hp_label in zip(example.words, example.labels, example.hp_labels):
             word_tokens = tokenizer.tokenize(word)
+            if(len(word_tokens) == 0):
+                continue
             tokens.extend(word_tokens)
             # Use the real label id for the first token of the word, and padding ids for the remaining tokens
             label_ids.extend([label] + [pad_token_label_id] * (len(word_tokens) - 1))
@@ -216,7 +218,7 @@ def convert_examples_to_features(
     return features
 
 
-def load_and_cache_examples(args, tokenizer, labels, pad_token_label_id, mode):
+def load_and_cache_examples(args, tokenizer, labels, pad_token_label_id, mode, remove_labels=False):
     
     if args.local_rank not in [-1, 0] and not evaluate:
         torch.distributed.barrier()  # Make sure only the first process in distributed training process the dataset, and the others will use the cache
@@ -267,6 +269,9 @@ def load_and_cache_examples(args, tokenizer, labels, pad_token_label_id, mode):
     all_label_ids = torch.tensor([f.label_ids for f in features], dtype=torch.long)
     all_full_label_ids = torch.tensor([f.full_label_ids for f in features], dtype=torch.long)
     all_hp_label_ids = torch.tensor([f.hp_label_ids for f in features], dtype=torch.long)
+    if remove_labels:
+        all_full_label_ids.fill_(pad_token_label_id)
+        all_hp_label_ids.fill_(pad_token_label_id)
     all_ids = torch.tensor([f for f in range(len(features))], dtype=torch.long)
 
     dataset = TensorDataset(all_input_ids, all_input_mask, all_segment_ids, all_label_ids, all_full_label_ids, all_hp_label_ids, all_ids)

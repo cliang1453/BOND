@@ -51,6 +51,7 @@ from transformers import (
     get_linear_schedule_with_warmup,
 )
 
+from modeling_bert import BERTForTokenClassification_v2
 from modeling_roberta import RobertaForTokenClassification_v2
 from data_utils import load_and_cache_examples, get_labels
 from model_utils import multi_source_label_refine, soft_frequency, mt_update, get_mt_loss, opt_grad
@@ -73,7 +74,7 @@ ALL_MODELS = sum(
 )
 
 MODEL_CLASSES = {
-    "bert": (BertConfig, BertForTokenClassification, BertTokenizer),
+    "bert": (BertConfig, BERTForTokenClassification_v2, BertTokenizer),
     "roberta": (RobertaConfig, RobertaForTokenClassification_v2, RobertaTokenizer),
     "distilbert": (DistilBertConfig, DistilBertForTokenClassification, DistilBertTokenizer),
     "camembert": (CamembertConfig, CamembertForTokenClassification, CamembertTokenizer),
@@ -570,6 +571,11 @@ def main():
     parser.add_argument('--self_training_hp_label', type = float, default = 0, help = 'use high precision label.')
     parser.add_argument('--self_training_ensemble_label', type = int, default = 0, help = 'use ensemble label.')
 
+    # Use data from weak.json
+    parser.add_argument('--load_weak', action="store_true", help = 'Load data from weak.json.')
+    parser.add_argument('--remove_labels_from_weak', action="store_true", help = 'Use data from weak.json, and remove their labels for semi-supervised learning')
+    parser.add_argument('--rep_train_against_weak', type = int, default = 1, help = 'Upsampling training data again weak data. Default: 1')
+
     args = parser.parse_args()
 
     if (
@@ -657,6 +663,11 @@ def main():
     # Training
     if args.do_train:
         train_dataset = load_and_cache_examples(args, tokenizer, labels, pad_token_label_id, mode="train")
+        # import ipdb; ipdb.set_trace()
+        if args.load_weak:
+            weak_dataset = load_and_cache_examples(args, tokenizer, labels, pad_token_label_id, mode="weak", remove_labels=args.remove_labels_from_weak)
+            train_dataset = torch.utils.data.ConcatDataset([train_dataset]*args.rep_train_against_weak + [weak_dataset,])
+            
         model, global_step, tr_loss, best_dev, best_test = train(args, train_dataset, model_class, config, tokenizer, labels, pad_token_label_id)
         logger.info(" global_step = %s, average loss = %s", global_step, tr_loss)
 
